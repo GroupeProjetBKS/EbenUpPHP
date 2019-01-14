@@ -21,6 +21,7 @@
 			if (strlen($pseudo) <2  || !preg_match("/^[a-zA-Z0-9 _-]+$/", $pseudo)  || strlen($pseudo) > 50) {
 				$results['error'] = true;
 				$results['message']['pseudo'] = "Pseudo invalide";
+				print("erreur pseudo");
 			}
 			else{
 				
@@ -30,6 +31,7 @@
 				if($row){
 					$results['error'] = true;
 					$results['message']['pseudo'] = "Pseudo existe deja";
+					print("erreur pseudo deja existant");
 				}
 
 			}
@@ -39,6 +41,7 @@
 			if (!filter_var($email,FILTER_VALIDATE_EMAIL)) {
 				$results['error'] = true;
 				$results['message']['email'] = "Email invalide";
+				print("Email invalide");
 			}
 			else{
 				$requete=$db->prepare('SELECT email From user where email = :email');
@@ -47,6 +50,7 @@
 				if($row){
 					$results['error'] = true;
 					$results['message']['pseudo'] = "Email existe deja";
+					print("email dejq pris");
 				}
 			}
 
@@ -54,6 +58,7 @@
 
 
 			if ($password !== $password2) {
+				print("erreur mdp");
 				$results['error'] = true;
 				$results['message']['password'] = "Il faut que les mot de passe soient identiques";
 			}
@@ -65,14 +70,16 @@
 				$reket = $db->prepare("INSERT into user Values (NULL, '".$pseudo."', '".$prenom."', '".$adresse."', '".$email."','".$password."')" );
 				//$sql->execute([":pseudo => $pseudo" , ":prenom => $prenom", ":adresse => $adresse" , ":email => $email" , ":password => $password"  ]);
 				$reket->execute();
-//				print("c passe *****");
+				
 
 				if (!$reket) {
 					$results['error'] = true;
 					$results['message'] = "Erreur";
 				}
+				print("{ 'passe' : 'oui' }");
 			}
-		}
+			
+		}		
 	}
 	else{
 		$results['error'] = true;

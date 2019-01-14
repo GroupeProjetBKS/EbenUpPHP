@@ -28,7 +28,7 @@
 				$donnees = $_REQUEST["data"];
 				$cnx = connexionPDO();
 				$data = json_decode($donnees);
-				$userId = 26;
+				$userId = $data[0];
 				$title = $data[1];
 				$desc = $data[2];
 				$coif = $data[3];
@@ -49,13 +49,21 @@
 				die();
 			}
 		}
-		/*else if($_REQUEST["operation"]=="chercherUtilisateur"){
+		else if($_REQUEST["operation"]=="chercherUtilisateur"){
 			try{
+				$data = $_REQUEST["data"];
+				$ddaattaa = json_decode($data);
+				$pseudo = $ddaattaa[0];
+				$cnx = connexionPDO();
+				$req = $cnx->prepare("select user_id from user where pseudo = '".$pseudo."';");
+				$req->execute();
+				$idd = $req->fetch();
+				print(json_encode($idd));
 				
-			}catch(PDOException $e{
+			}catch(PDOException $e){
 				print("erreur : $e");
 				die();
 			}
-		}*/
+		}
 	}
 ?>
